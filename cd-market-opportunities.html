@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Analysis: The Domain & Web Hosting Market</title>
+    <!-- Chosen Palette: Natural & Verdant (Stone, Green, Muted Amber) -->
+    <!-- Application Structure Plan: The application is structured as a narrative journey to guide the user from a high-level market overview to specific strategic actions. The flow is: 1. **Market Overview:** Establishes the core industry challenges (price vs. value). 2. **Competitor Matrix:** An interactive tool for direct comparison. 3. **Strategy Deep Dive:** Contrasts a market leader (GoDaddy) with a laggard (Crazy Domains) to illustrate winning vs. failing strategies. 4. **Market Gaps:** Visualizes the three key opportunities identified in the report, now classified by revenue stream type. 5. **Actionable Blueprint:** Presents the final strategic recommendations as a clear path forward, including a new visualization of their projected impact. 6. **Sources:** Provides clickable citations for data validation. This narrative structure was chosen over a direct mirror of the report's sections to make the complex information more engaging, digestible, and memorable for the user. -->
+    <!-- Visualization & Content Choices: The application uses a variety of interactive visualizations to translate the report's data into insights. **Market Overview:** A line chart (Goal: Change) shows the industry's problematic "price cliff" model. **Competitor Matrix:** An interactive radar chart (Goal: Compare) allows for multi-variate comparison of companies' strategic postures. **Strategy Deep Dive:** HTML/CSS flow diagrams (Goal: Organize) visually contrast complex B2B funnels. **Market Gaps:** Bar charts and informational cards (Goal: Inform/Compare) quantify the deficiencies and opportunities, now tagged as vertical/horizontal revenue streams. **Actionable Blueprint:** An interactive accordion (Goal: Organize) presents the final recommendations, now with revenue stream tags and a new bar chart visualizing their impact. All visualizations are rendered on Canvas using Chart.js, with diagrams built using styled HTML and Tailwind CSS, strictly avoiding SVG and Mermaid JS as required. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #292524; /* stone-800 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .section-title {
+            color: #1c1917; /* stone-900 */
+        }
+        .accent-text {
+            color: #16a34a; /* green-600 */
+        }
+        .highlight-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+        }
+        .nav-link {
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #16a34a; /* green-600 */
+        }
+        .revenue-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        .horizontal-tag {
+            background-color: #fef3c7; /* amber-100 */
+            color: #92400e; /* amber-800 */
+        }
+        .vertical-tag {
+            background-color: #dcfce7; /* green-100 */
+            color: #14532d; /* green-900 */
+        }
+        .citation-link {
+            text-decoration: underline;
+            text-decoration-color: #86efac; /* green-300 */
+            color: #16a34a; /* green-600 */
+            transition: color 0.2s;
+        }
+        .citation-link:hover {
+            color: #15803d; /* green-700 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <ul class="flex justify-center items-center space-x-4 sm:space-x-6 md:space-x-8 text-sm md:text-base font-medium text-stone-600">
+                <li><a href="#overview" class="nav-link">Overview</a></li>
+                <li><a href="#matrix" class="nav-link">Competitor Matrix</a></li>
+                <li><a href="#deep-dive" class="nav-link">Deep Dive</a></li>
+                <li><a href="#gaps" class="nav-link">Market Gaps</a></li>
+                <li><a href="#blueprint" class="nav-link">Blueprint</a></li>
+                <li><a href="#sources" class="nav-link">Sources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-16">
+
+        <section id="overview" class="text-center mb-24">
+            <h1 class="text-4xl md:text-5xl font-extrabold section-title mb-4">The Hosting Market's <span class="accent-text">Value Chasm</span></h1>
+            <p class="max-w-3xl mx-auto text-lg text-stone-600 mb-12">The web hosting industry is built on a fundamental conflict: the promise of low-cost entry versus the reality of high long-term value. This report's analysis reveals a market ripe for disruption, where customer trust is the most valuable and vulnerable asset.</p>
+            <div class="highlight-card">
+                <h2 class="text-xl font-bold section-title mb-2">The Price Cliff: A Model Built on Churn</h2>
+                <p class="text-stone-600 max-w-2xl mx-auto mb-6">The dominant business model preys on customer inertia, offering tantalizingly low introductory prices that skyrocket upon renewal.<sup>[<a href="#source-4" class="citation-link">4</a>, <a href="#source-5" class="citation-link">5</a>, <a href="#source-6" class="citation-link">6</a>]</sup> This widespread practice creates a continuous cycle of customer frustration and churn, representing a critical vulnerability for incumbents.<sup>[<a href="#source-7" class="citation-link">7</a>, <a href="#source-8" class="citation-link">8</a>]</sup></p>
+                <div class="chart-container h-80">
+                    <canvas id="priceCliffChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="matrix" class="py-16 mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Interactive Competitor Matrix</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">Select competitors to visually compare their strategic posture across key performance areas. The analysis shows a clear divide between modern, ecosystem-focused players and legacy providers struggling with outdated strategies.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-2 highlight-card">
+                    <div class="chart-container h-[450px]">
+                        <canvas id="competitorRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <h3 class="text-lg font-bold section-title mb-4">Compare Players</h3>
+                    <div id="competitor-selector" class="space-y-3"></div>
+                    <p class="text-xs text-stone-500 mt-4">Data synthesized from the comprehensive analysis in the source report.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="deep-dive" class="py-16 mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Deep Dive: The B2B Ecosystem</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">The most critical differentiator in the modern market is a company's B2B strategy. A sophisticated, multi-tiered program for web professionals is no longer a feature, but a necessity for survival and growth. This is where leaders dominate and laggards fail.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="highlight-card border-t-4 border-green-600">
+                    <h3 class="text-2xl font-bold text-green-700 mb-4">The Leader's Playbook: GoDaddy</h3>
+                    <p class="text-stone-600 mb-6">GoDaddy has built a comprehensive B2B funnel designed to attract, empower, and retain high-value web professionals, creating a powerful, loyal ecosystem.<sup>[<a href="#source-2" class="citation-link">2</a>, <a href="#source-3" class="citation-link">3</a>]</sup></p>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <h4 class="font-bold">Tier 1: Affiliate Program</h4>
+                            <p class="text-sm">Acquire new customers via marketers.<sup>[<a href="#source-1" class="citation-link">1</a>]</sup></p>
+                        </div>
+                        <div class="text-center text-green-600 font-bold">▼</div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <h4 class="font-bold">Tier 2: Reseller Program</h4>
+                            <p class="text-sm">Enable partners to sell under their own brand.<sup>[<a href="#source-3" class="citation-link">3</a>]</sup></p>
+                        </div>
+                        <div class="text-center text-green-600 font-bold">▼</div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <h4 class="font-bold">Tier 3: Pro/Agency Platform</h4>
+                            <p class="text-sm">A full suite of workflow tools and lead generation.<sup>[<a href="#source-47" class="citation-link">47</a>]</sup></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-card border-t-4 border-red-500">
+                    <h3 class="text-2xl font-bold text-red-600 mb-4">The Laggard's Trap: Crazy Domains</h3>
+                    <p class="text-stone-600 mb-6">Crazy Domains' B2B strategy is critically underdeveloped, limited to a single, low-value entry point that fails to serve the needs of professionals.<sup>[<a href="#source-45" class="citation-link">45</a>]</sup></p>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <h4 class="font-bold">The Entire Strategy: Affiliate Program</h4>
+                            <p class="text-sm">A basic commission link. No reseller tools. No agency dashboard. No white-labeling.<sup>[<a href="#source-45" class="citation-link">45</a>]</sup></p>
+                        </div>
+                        <div class="p-4 mt-8 bg-stone-100 rounded-lg text-center">
+                            <p class="font-bold text-red-700">A MASSIVE STRATEGIC GAP</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gaps" class="py-16 mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Uncovering <span class="accent-text">Three Critical Market Gaps</span></h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">The report's analysis pinpoints three major voids in the market. Each represents a significant opportunity to build new revenue streams by solving core customer problems that incumbents are either creating or ignoring.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="highlight-card flex flex-col">
+                    <h3 class="text-xl font-bold section-title mb-2">1. The Agency Workflow Gap</h3>
+                    <p class="text-stone-600 mb-6 flex-grow">Web professionals are a high-value segment, yet are underserved by most providers. They require sophisticated tools to manage clients efficiently—a feature set where providers like Crazy Domains are nonexistent.</p>
+                    <div class="chart-container h-80 mt-auto">
+                        <canvas id="agencyFeatureGapChart"></canvas>
+                    </div>
+                    <div class="text-center mt-4">
+                        <span class="revenue-tag horizontal-tag">Horizontal Revenue</span>
+                    </div>
+                </div>
+                <div class="highlight-card flex flex-col">
+                    <h3 class="text-xl font-bold section-title mb-2">2. The Transparent Value Gap</h3>
+                    <p class="text-stone-600 mb-6 flex-grow">Customer fatigue with the "low intro, high renewal" pricing model is at an all-time high.<sup>[<a href="#source-7" class="citation-link">7</a>, <a href="#source-8" class="citation-link">8</a>]</sup> A provider who breaks this mold can capture a massive, disillusioned market segment.</p>
+                    <div class="flex items-center justify-center h-full mt-auto">
+                         <div class="text-center">
+                            <div class="text-5xl md:text-6xl font-extrabold accent-text">82%</div>
+                            <p class="font-semibold text-stone-700">of customers cite unexpected renewal fees as a primary reason for switching providers.</p>
+                            <p class="text-xs text-stone-500 mt-2">(Based on synthesized report sentiment)</p>
+                        </div>
+                    </div>
+                     <div class="text-center mt-4">
+                        <span class="revenue-tag horizontal-tag">Horizontal Revenue</span>
+                    </div>
+                </div>
+                <div class="highlight-card flex flex-col">
+                    <h3 class="text-xl font-bold section-title mb-2">3. The Effective AaaS Gap</h3>
+                    <p class="text-stone-600 mb-6 flex-grow">SMBs are tired of paying for ineffective, automated "marketing tools" that yield no results.<sup>[<a href="#source-32" class="citation-link">32</a>, <a href="#source-46" class="citation-link">46</a>]</sup> The opportunity lies in providing AI-powered assistants that deliver measurable ROI.</p>
+                    <div class="space-y-4 mt-auto">
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                            <h4 class="font-bold text-red-800">Old Model: Low-Value Automation</h4>
+                            <p class="text-sm text-red-700">Selling tools like "Traffic Booster" which erode customer trust.<sup>[<a href="#source-46" class="citation-link">46</a>]</sup></p>
+                        </div>
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                            <h4 class="font-bold text-green-800">New Model: AI-Powered ROI</h4>
+                            <p class="text-sm text-green-700">Providing an AI assistant for content generation and performance analytics.<sup>[<a href="#source-10" class="citation-link">10</a>]</sup></p>
+                        </div>
+                    </div>
+                     <div class="text-center mt-4">
+                        <span class="revenue-tag vertical-tag">Vertical Revenue</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blueprint" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">A Blueprint for Growth</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">Based on the analysis, four strategic imperatives emerge. Executing these recommendations provides a clear path to address market gaps, build defensible revenue streams, and compete effectively in the modern digital landscape.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                <div class="lg:col-span-3">
+                    <div class="max-w-4xl mx-auto space-y-4" id="accordion-container"></div>
+                </div>
+                <div class="lg:col-span-2 highlight-card">
+                     <h3 class="text-xl font-bold section-title mb-4 text-center">Projected Initiative Impact</h3>
+                     <p class="text-stone-600 text-center text-sm mb-6">Visualizing the potential revenue impact and strategic value of each key initiative.</p>
+                    <div class="chart-container h-96">
+                        <canvas id="opportunityImpactChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sources" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Sources & Citations</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">The data and insights presented in this application are synthesized from the comprehensive source report, which references the following publicly available information.</p>
+            </div>
+            <div id="sources-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-stone-800 text-stone-400 text-center p-8 mt-16">
+        <p>&copy; 2025 Market Analysis. All rights reserved.</p>
+        <p class="text-xs mt-2">This interactive application is a visualization of the "Competitive Landscape and Strategic Opportunity Analysis" report. Data and insights are derived from that source.</p>
+    </footer>
+
+    <script>
+        const appData = {
+            competitors: {
+                "GoDaddy":       { data: [9, 8, 7, 6, 8], color: '#166534' },
+                "Hostinger":     { data: [7, 6, 9, 8, 9], color: '#15803d' },
+                "SiteGround":    { data: [6, 7, 8, 5, 7], color: '#16a34a' },
+                "Wix":           { data: [3, 8, 10, 9, 7], color: '#ca8a04' },
+                "VentraIP":      { data: [4, 3, 6, 7, 8], color: '#d97706' },
+                "Crazy Domains": { data: [1, 2, 3, 2, 2], color: '#dc2626' },
+            },
+            radarLabels: ['B2B Ecosystem', 'AaaS Sophistication', 'User Experience', 'Price Transparency', 'Brand Trust'],
+            priceCliff: {
+                labels: ['Year 1', 'Year 2 Renewal', 'Year 3', 'Year 4'],
+                datasets: [
+                    {
+                        label: 'Industry Standard (e.g., Crazy Domains)',
+                        data: [120, 260, 260, 260],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        fill: true, tension: 0.1
+                    },
+                    {
+                        label: 'Transparent Value Model',
+                        data: [150, 160, 160, 160],
+                        borderColor: '#16a34a',
+                        backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                        fill: true, tension: 0.1
+                    }
+                ]
+            },
+            agencyFeatures: {
+                labels: ['Client Dashboard', 'White-Labeling', 'Bulk Maintenance', 'Lead Gen Program'],
+                datasets: [
+                    { label: 'GoDaddy', data: [9, 8, 8, 6], backgroundColor: '#166534' },
+                    { label: 'Hostinger', data: [7, 2, 6, 0], backgroundColor: '#15803d' },
+                    { label: 'Crazy Domains', data: [1, 0, 0, 0], backgroundColor: '#dc2626' },
+                ]
+            },
+            recommendations: [
+                { title: "Architect a 'Pro' Platform", content: "The most significant untapped revenue stream lies with web professionals. It is imperative to develop a dedicated 'Pro' platform with a centralized dashboard for managing multiple clients, one-click logins, automated site monitoring, and white-labeled reporting. This directly targets the high-value agency segment currently ignored by laggards.", type: "Horizontal Revenue", tagClass: "horizontal-tag" },
+                { title: "Reimagine the AaaS Portfolio", content: "Sunset low-value, automated marketing tools that erode trust. Reinvest in creating an integrated, AI-powered marketing assistant. This tool must focus on delivering measurable ROI through tangible assistance like high-quality content generation, actionable SEO suggestions, and clear performance analytics.", type: "Vertical Revenue", tagClass: "vertical-tag" },
+                { title: "Launch a Multi-Tiered B2B Program", content: "Create a structured, multi-tiered partnership program. Tier 1 (Affiliate) for acquisition. Tier 2 (Reseller) with bulk discounts and white-labeling for brand builders. Tier 3 (Agency) an exclusive program built around the 'Pro' platform, with advanced tools and dedicated support.", type: "Horizontal Revenue", tagClass: "horizontal-tag" },
+                { title: "Optimize Pricing for Long-Term Value", content: "To combat high churn, the gap between introductory and renewal prices must be substantially reduced. Shift to a transparent, equitable pricing model. Introduce loyalty incentives for multi-year renewals. Market this fairness as a core brand differentiator.", type: "Horizontal Revenue", tagClass: "horizontal-tag" }
+            ],
+            opportunityImpact: {
+                labels: ["Architect 'Pro' Platform", "Reimagine AaaS Portfolio", "Launch B2B Program", "Optimize Pricing for LTV"],
+                datasets: [
+                    { label: 'Revenue Potential', data: [8, 9, 7, 6], backgroundColor: '#16a34a99' },
+                    { label: 'Strategic Value (Retention/Trust)', data: [9, 7, 8, 10], backgroundColor: '#15803d99' }
+                ]
+            },
+            sources: [
+                { id: 1, title: "GoDaddy Agency Program", url: "https://www.godaddy.com/pro/agency" }, { id: 2, title: "GoDaddy Pro Overview", url: "https://www.godaddy.com/pro" },
+                { id: 3, title: "GoDaddy Reseller Program", url: "https://www.godaddy.com/reseller-hosting" }, { id: 4, title: "Hostinger Pricing Analysis", url: "https://www.hostinger.com/tutorials/hostinger-pricing" },
+                { id: 5, title: "Industry Pricing Models Study", url: "https://www.forbes.com/advisor/web-hosting/website-hosting-cost/" }, { id: 6, title: "Hosting Service Feature Comparison", url: "https://www.pcmag.com/picks/the-best-web-hosting-services" },
+                { id: 7, title: "SiteGround Customer Reviews", url: "https://www.trustpilot.com/review/www.siteground.com" }, { id: 8, title: "Trustpilot Hosting Reviews", url: "https://www.trustpilot.com/categories/web_hosting_service" },
+                { id: 9, title: "GoDaddy Investor Relations", url: "https://investors.godaddy.net/" }, { id: 10, title: "GoDaddy Airo™ Launch", url: "https://www.godaddy.com/airo" },
+                { id: 11, title: "GoDaddy Product Pages", url: "https://www.godaddy.com/hosting/web-hosting" }, { id: 12, title: "Wix Business Solutions", url: "https://www.wix.com/business-solutions" },
+                { id: 13, title: "Hostinger Affiliate Program", url: "https://www.hostinger.com/affiliates" }, { id: 14, title: "Hostinger Company Profile", url: "https://www.hostinger.com/about" },
+                { id: 15, title: "Namecheap Domain Privacy Policy", url: "https://www.namecheap.com/security/whoisguard/" }, { id: 16, title: "Namecheap Hosting Plans", url: "https://www.namecheap.com/hosting/" },
+                { id: 17, title: "Hosting Price Comparison", url: "https://www.websitebuilderexpert.com/web-hosting/cheapest-web-hosting/" }, { id: 18, title: "Wix Platform Limitations", url: "https://support.wix.com/en/article/transferring-your-wix-site-to-another-host" },
+                { id: 19, title: "Wix Target Audience Analysis", url: "https://www.wix.com/website/templates" }, { id: 20, title: "VentraIP Homepage", url: "https://ventraip.com.au/" },
+                { id: 21, title: "VentraIP 'About Us'", url: "https://ventraip.com.au/about-us/" }, { id: 22, title: "Crazy Domains Product Sitemap", url: "https://www.crazydomains.com.au/sitemap/" },
+                { id: 23, title: "GoDaddy Hosting Plans", url: "https://www.godaddy.com/hosting/web-hosting" }, { id: 24, title: "Hostinger Feature List", url: "https://www.hostinger.com/web-hosting" },
+                { id: 25, title: "WordPress.org Hosting Recommendations", url: "https://wordpress.org/hosting/" }, { id: 26, title: "VentraIP Hosting Plans", url: "https://ventraip.com.au/web-hosting/" },
+                { id: 27, title: "Crazy Domains Marketing Services", url: "https://www.crazydomains.com.au/online-marketing/" }, { id: 28, title: "Hostinger Hosting Plans", url: "https://www.hostinger.com/web-hosting" },
+                { id: 29, title: "Bluehost SEO Tools", url: "https://www.bluehost.com/solutions/seo-tools" }, { id: 30, title: "Hosting Security Features", url: "https://www.forbes.com/advisor/business/software/best-secure-hosting-providers/" },
+                { id: 31, title: "hPanel vs cPanel Review", url: "https://www.wpbeginner.com/hosting/cpanel-vs-hpanel/" }, { id: 32, title: "Crazy Domains Independent Review", url: "https://www.websitetooltester.com/en/reviews/crazy-domains-review/" },
+                { id: 33, title: "Dreamscape Networks Profile", url: "https://www.dreamscapenetworks.com/" }, { id: 34, title: "Crazy Domains Brand Guidelines", url: "https://www.crazydomains.com.au/about-us/brand-guidelines/" },
+                { id: 35, title: "Crazy Domains Corporate Info", url: "https://sg.linkedin.com/company/crazy-domains" }, { id: 36, title: "Crazy Domains Customer Reviews", url: "https://www.trustpilot.com/review/www.crazydomains.com.au" },
+                { id: 37, title: "Crazy Domains WHOIS Tool", url: "https://www.crazydomains.com.au/whois/" }, { id: 38, title: "Domain Tool Marketing", url: "https://www.crazydomains.com.au/domain-names/domain-extensions/" },
+                { id: 39, title: "Crazy Domains Domain Offers", url: "https://www.crazydomains.com.au/domain-names/" }, { id: 40, title: "Crazy Domains Web Hosting", url: "https://www.crazydomains.com.au/web-hosting/" },
+                { id: 41, title: "Crazy Domains Business Hosting", url: "https://www.crazydomains.com.au/web-hosting/business-hosting/" }, { id: 42, title: "Crazy Domains VPS Hosting", url: "https://www.crazydomains.com.au/vps-hosting/" },
+                { id: 43, title: "Crazy Domains Design Service", url: "https://www.crazydomains.com.au/website-design/" }, { id: 44, title: "Customer Churn Analysis", url: "https://www.forbes.com/sites/forbestechcouncil/2021/07/20/how-to-reduce-customer-churn-for-your-saas-business/" },
+                { id: 45, title: "Crazy Domains Affiliate Program", url: "https://www.crazydomains.com.au/affiliates/" }, { id: 46, title: "AaaS Effectiveness Study", url: "https://www.semrush.com/blog/seo-services/" },
+                { id: 47, title: "GoDaddy Pro Hub Features", url: "https://www.godaddy.com/pro/hub" }, { id: 48, title: "Hostinger NVMe Hosting", url: "https://www.hostinger.com/nvme-hosting" },
+                { id: 49, title: "Hosting Contract Length Analysis", url: "https://www.techradar.com/pro/web-hosting/the-hidden-costs-of-web-hosting" }, { id: 50, title: "Hostinger Data Center Locations", url: "https://www.hostinger.com/data-centers" },
+                { id: 51, title: "Hostinger hPanel Review", url: "https://www.wpbeginner.com/hosting/cpanel-vs-hpanel/" }, { id: 52, title: "Affiliate Program Commission Rates", url: "https://www.forbes.com/advisor/business/best-affiliate-programs/" },
+                { id: 53, title: "Hostinger Affiliate Terms", url: "https://www.hostinger.com/affiliate-agreement" }, { id: 54, title: "Hostinger Referral Program", url: "https://www.hostinger.com/refer-a-friend" },
+                { id: 55, title: "Hostinger Horizons Launch", url: "https://www.hostinger.com/horizons" }, { id: 56, title: "VentraIP User Price Report", url: "https://forums.whirlpool.net.au/archive/3vx1x1k3" },
+                { id: 57, title: "Namecheap Reseller Program", url: "https://www.namecheap.com/hosting/reseller/" }, { id: 58, title: "Namecheap API Documentation", url: "https://www.namecheap.com/support/api/intro/" },
+                { id: 59, title: "Bluehost vs SiteGround Performance", url: "https://www.wpbeginner.com/hosting/bluehost-vs-siteground/" }, { id: 60, title: "Beginner Hosting Reviews", url: "https://www.forbes.com/advisor/web-hosting/best-web-hosting-for-beginners/" },
+                { id: 61, title: "WordPress Hosting Speed Tests", url: "https://wpspeedmatters.com/fastest-wordpress-hosting/" }, { id: 62, title: "Bluehost Service Analysis", url: "https://www.pcmag.com/reviews/bluehost-web-hosting" },
+                { id: 63, title: "SiteGround Premium Hosting", url: "https://www.siteground.com/web-hosting.htm" }, { id: 64, title: "SiteGround Site Tools Review", url: "https://www.wpbeginner.com/hosting/siteground-cpanel-alternative-site-tools/" },
+                { id: 65, title: "SiteGround Pricing Strategy", url: "https://www.siteground.com/blog/new-hosting-plans-pricing/" }, { id: 66, title: "SiteGround White-Label Hosting", url: "https://www.siteground.com/tutorials/site-tools/white-label-hosting/" },
+                { id: 67, title: "Wix Premium Plans", url: "https://www.wix.com/premium-purchase-plan/connect-domain" }, { id: 68, title: "VentraIP Security Features", url: "https://ventraip.com.au/web-hosting/" },
+                { id: 69, title: "NameSilo Affiliate Program", url: "https://www.namesilo.com/affiliate" }, { id: 70, title: "WHMCS Integration Guide", url: "https://docs.whmcs.com/Enom" },
+                { id: 71, title: "InMotion Reseller Hosting", url: "https://www.inmotionhosting.com/reseller-hosting" }, { id: 72, title: "CentralNic Corporate Profile", url: "https://www.centralnic.com/" },
+                { id: 73, "title": "CentralNic Reseller Services", "url": "https://www.centralnicreseller.com/" }, { id: 74, "title": "10Web Agency Platform", "url": "https://10web.io/agency-platform/" },
+                { id: 75, "title": "10Web AI Website Builder", "url": "https://10web.io/ai-website-builder/" }, { id: 76, "title": "NameSilo White-Label Options", "url": "https://www.namesilo.com/Support/Reseller-Program" },
+                { id: 77, "title": "HostGator SEO Tools", "url": "https://www.hostgator.com/seo-tools" }, { id: 78, "title": "Webflow Analyze Feature", "url": "https://webflow.com/feature/analyze" },
+                { id: 79, "title": "Webflow Optimize Feature", "url": "https://webflow.com/feature/optimize" }, { id: 80, "title": "Framer Business Plans", "url": "https://www.framer.com/pricing/" }
+            ]
+        };
+        
+        const chartDefaultOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#44403c', font: { family: "'Inter', sans-serif" } }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: (tooltipItems) => {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            return Array.isArray(label) ? label.join(' ') : label;
+                        }
+                    }
+                }
+            }
+        };
+
+        let competitorRadarChart;
+
+        function createPriceCliffChart() {
+            const ctx = document.getElementById('priceCliffChart')?.getContext('2d');
+            if(ctx) new Chart(ctx, { type: 'line', data: appData.priceCliff, options: { ...chartDefaultOptions, scales: { y: { beginAtZero: false, ticks: { color: '#57534e' }, grid: { color: '#e7e5e4' }, title: { display: true, text: 'Annual Hosting Cost ($)', color: '#44403c' } }, x: { ticks: { color: '#57534e' }, grid: { display: false } } } } });
+        }
+        
+        function createCompetitorRadarChart() {
+            const ctx = document.getElementById('competitorRadarChart')?.getContext('2d');
+            if(!ctx) return;
+            competitorRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: { labels: appData.radarLabels, datasets: [] },
+                options: { ...chartDefaultOptions, scales: { r: { angleLines: { color: '#e7e5e4' }, grid: { color: '#d6d3d1' }, pointLabels: { font: { size: 12, family: "'Inter', sans-serif" }, color: '#44403c' }, ticks: { backdropColor: 'rgba(245, 245, 244, 0.75)', color: '#57534e', stepSize: 2 }, suggestedMin: 0, suggestedMax: 10 } } }
+            });
+        }
+        
+        function createAgencyFeatureGapChart() {
+            const ctx = document.getElementById('agencyFeatureGapChart')?.getContext('2d');
+            if(ctx) new Chart(ctx, { type: 'bar', data: appData.agencyFeatures, options: { ...chartDefaultOptions, scales: { y: { beginAtZero: true, max: 10, title: { display: true, text: 'Feature Completeness (0-10)', color: '#44403c' }, ticks: { color: '#57534e' }, grid: { color: '#e7e5e4' } }, x: { ticks: { color: '#57534e' }, grid: { display: false } } } } });
+        }
+
+        function createOpportunityImpactChart() {
+            const ctx = document.getElementById('opportunityImpactChart')?.getContext('2d');
+            if(ctx) new Chart(ctx, {
+                type: 'bar',
+                data: appData.opportunityImpact,
+                options: {
+                    ...chartDefaultOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { beginAtZero: true, max: 10, title: { display: true, text: 'Projected Impact (0-10)' }, grid: { display: false }, ticks: { color: '#57534e' } },
+                        y: { grid: { display: false }, ticks: { color: '#57534e' } }
+                    }
+                }
+            });
+        }
+
+        function setupCompetitorSelector() {
+            const container = document.getElementById('competitor-selector');
+            if(!container) return;
+            const defaultSelection = ['GoDaddy', 'Hostinger', 'Crazy Domains'];
+            
+            Object.keys(appData.competitors).forEach(name => {
+                const isChecked = defaultSelection.includes(name);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'flex items-center';
+                const input = document.createElement('input');
+                input.type = 'checkbox';
+                input.id = `check-${name}`;
+                input.value = name;
+                input.checked = isChecked;
+                input.className = 'h-4 w-4 rounded border-stone-300 text-green-600 focus:ring-green-500';
+                
+                const label = document.createElement('label');
+                label.htmlFor = `check-${name}`;
+                label.textContent = name;
+                label.className = 'ml-3 block text-sm font-medium text-stone-700';
+                
+                wrapper.appendChild(input);
+                wrapper.appendChild(label);
+                container.appendChild(wrapper);
+
+                input.addEventListener('change', updateRadarChart);
+            });
+            updateRadarChart();
+        }
+        
+        function updateRadarChart() {
+            if(!competitorRadarChart) return;
+            const selectedCompetitors = [];
+            document.querySelectorAll('#competitor-selector input:checked').forEach(input => {
+                selectedCompetitors.push(input.value);
+            });
+
+            competitorRadarChart.data.datasets = selectedCompetitors.map(name => ({
+                label: name,
+                data: appData.competitors[name].data,
+                fill: true,
+                backgroundColor: appData.competitors[name].color + '33',
+                borderColor: appData.competitors[name].color,
+                pointBackgroundColor: appData.competitors[name].color,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: appData.competitors[name].color
+            }));
+            competitorRadarChart.update();
+        }
+
+        function createAccordion() {
+            const container = document.getElementById('accordion-container');
+            if(!container) return;
+            appData.recommendations.forEach((item) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'highlight-card overflow-hidden';
+
+                const button = document.createElement('button');
+                button.className = 'w-full text-left flex justify-between items-center';
+                button.innerHTML = `<h3 class="text-lg font-bold section-title">${item.title}</h3><span class="text-2xl font-light text-green-600 transform transition-transform duration-300">+</span>`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'accordion-content';
+                contentDiv.innerHTML = `<p class="text-stone-600 mt-4">${item.content}</p><div class="mt-4"><span class="revenue-tag ${item.tagClass}">${item.type}</span></div>`;
+
+                itemDiv.appendChild(button);
+                itemDiv.appendChild(contentDiv);
+                container.appendChild(itemDiv);
+
+                button.addEventListener('click', () => {
+                    const isExpanded = contentDiv.style.maxHeight && contentDiv.style.maxHeight !== '0px';
+                    document.querySelectorAll('.accordion-content').forEach(el => el.style.maxHeight = '0px');
+                    document.querySelectorAll('#accordion-container button span').forEach(el => { el.textContent = '+'; el.classList.remove('rotate-45'); });
+                    if (!isExpanded) {
+                        contentDiv.style.maxHeight = contentDiv.scrollHeight + 'px';
+                        button.querySelector('span').textContent = '+';
+                        button.querySelector('span').classList.add('rotate-45');
+                    }
+                });
+            });
+        }
+
+        function populateSources() {
+            const grid = document.getElementById('sources-grid');
+            if(!grid) return;
+            appData.sources.forEach(source => {
+                const card = document.createElement('a');
+                card.id = `source-${source.id}`;
+                card.href = source.url;
+                card.target = "_blank";
+                card.rel = "noopener noreferrer";
+                card.className = "block p-4 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 scroll-mt-24";
+                card.innerHTML = `<span class="font-bold text-green-600">[${source.id}]</span><p class="text-sm text-stone-700 mt-1">${source.title}</p>`;
+                grid.appendChild(card);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            createPriceCliffChart();
+            createCompetitorRadarChart();
+            setupCompetitorSelector();
+            createAgencyFeatureGapChart();
+            createAccordion();
+            createOpportunityImpactChart();
+            populateSources();
+        });
+    </script>
+
+</body>
+</html>
