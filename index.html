@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Analysis: The Domain & Web Hosting Market</title>
     <!-- Chosen Palette: Natural & Verdant (Stone, Green, Muted Amber) -->
-    <!-- Application Structure Plan: The application is structured as a narrative journey to guide the user from a high-level market overview to specific strategic actions. The flow is: 1. **Market Overview:** Establishes the core industry challenges (price vs. value). 2. **Competitor Matrix:** An interactive tool for direct comparison. 3. **Strategy Deep Dive:** Contrasts a market leader (GoDaddy) with a laggard (Crazy Domains) to illustrate winning vs. failing strategies. 4. **Market Gaps:** Visualizes the three key opportunities identified in the report, now classified by revenue stream type. 5. **Actionable Blueprint:** Presents the final strategic recommendations as a clear path forward, including a new visualization of their projected impact. 6. **Sources:** Provides clickable citations for data validation. This narrative structure was chosen over a direct mirror of the report's sections to make the complex information more engaging, digestible, and memorable for the user. -->
-    <!-- Visualization & Content Choices: The application uses a variety of interactive visualizations to translate the report's data into insights. **Market Overview:** A line chart (Goal: Change) shows the industry's problematic "price cliff" model. **Competitor Matrix:** An interactive radar chart (Goal: Compare) allows for multi-variate comparison of companies' strategic postures. **Strategy Deep Dive:** HTML/CSS flow diagrams (Goal: Organize) visually contrast complex B2B funnels. **Market Gaps:** Bar charts and informational cards (Goal: Inform/Compare) quantify the deficiencies and opportunities, now tagged as vertical/horizontal revenue streams. **Actionable Blueprint:** An interactive accordion (Goal: Organize) presents the final recommendations, now with revenue stream tags and a new bar chart visualizing their impact. All visualizations are rendered on Canvas using Chart.js, with diagrams built using styled HTML and Tailwind CSS, strictly avoiding SVG and Mermaid JS as required. -->
+    <!-- Application Structure Plan: The application is structured as a narrative journey to guide the user from a high-level market overview to specific strategic actions. The flow is: 1. **Market Overview:** Establishes the core industry challenges (price vs. value). 2. **Competitor Matrix:** An interactive tool for direct comparison. 3. **Strategy Deep Dive:** Contrasts a market leader (GoDaddy) with a laggard (Crazy Domains) to illustrate winning vs. failing strategies. 4. **Market Gaps:** Visualizes the three key opportunities identified in the report. 5. **Performance Potential:** Projects the market performance of these new opportunities. 6. **Actionable Blueprint:** Presents the final strategic recommendations. 7. **Sources:** Provides clickable citations for data validation. This narrative structure was chosen to make the complex information more engaging and memorable. -->
+    <!-- Visualization & Content Choices: The application uses a variety of interactive visualizations. **Market Overview:** Line chart. **Competitor Matrix:** Interactive radar chart. **Strategy Deep Dive:** HTML/CSS flow diagrams. **Market Gaps:** Bar charts and info cards. **Performance Potential:** Bubble charts to show ROI, market size, and strategic value. **Actionable Blueprint:** Interactive accordion and impact bar chart. All visualizations are rendered on Canvas using Chart.js, with diagrams built using styled HTML and Tailwind CSS, strictly avoiding SVG and Mermaid JS. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -92,6 +92,7 @@
                 <li><a href="#matrix" class="nav-link">Competitor Matrix</a></li>
                 <li><a href="#deep-dive" class="nav-link">Deep Dive</a></li>
                 <li><a href="#gaps" class="nav-link">Market Gaps</a></li>
+                <li><a href="#performance" class="nav-link">Performance</a></li>
                 <li><a href="#blueprint" class="nav-link">Blueprint</a></li>
                 <li><a href="#sources" class="nav-link">Sources</a></li>
             </ul>
@@ -224,6 +225,37 @@
             </div>
         </section>
 
+        <section id="performance" class="py-16 mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Projected Market Performance of New Opportunities</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">How will these new opportunities perform? This analysis projects their potential based on addressable market size, strategic value in building customer loyalty, and potential return on investment.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="highlight-card text-center">
+                    <h3 class="text-xl font-bold section-title mb-2">Pro Platform for Agencies</h3>
+                    <p class="text-stone-600 mb-4 text-sm">High revenue per user and immense customer loyalty.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="proPlatformPotentialChart"></canvas>
+                    </div>
+                </div>
+                <div class="highlight-card text-center">
+                    <h3 class="text-xl font-bold section-title mb-2">AI-Powered AaaS</h3>
+                    <p class="text-stone-600 mb-4 text-sm">A powerful new vertical revenue stream that increases platform stickiness.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="aiAaasPotentialChart"></canvas>
+                    </div>
+                </div>
+                <div class="highlight-card text-center">
+                    <h3 class="text-xl font-bold section-title mb-2">Transparent Pricing</h3>
+                    <p class="text-stone-600 mb-4 text-sm">Massive potential for customer acquisition and reduced churn.</p>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="transparentPricingPotentialChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-sm text-stone-500 mt-8">Bubble size represents potential ROI. X-axis represents addressable market size, and Y-axis represents strategic value (loyalty/stickiness).</p>
+        </section>
+
         <section id="blueprint" class="py-16">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold section-title">A Blueprint for Growth</h2>
@@ -262,14 +294,15 @@
     <script>
         const appData = {
             competitors: {
-                "GoDaddy":       { data: [9, 8, 7, 6, 8], color: '#166534' },
-                "Hostinger":     { data: [7, 6, 9, 8, 9], color: '#15803d' },
-                "SiteGround":    { data: [6, 7, 8, 5, 7], color: '#16a34a' },
-                "Wix":           { data: [3, 8, 10, 9, 7], color: '#ca8a04' },
-                "VentraIP":      { data: [4, 3, 6, 7, 8], color: '#d97706' },
-                "Crazy Domains": { data: [1, 2, 3, 2, 2], color: '#dc2626' },
+                "GoDaddy":       { data: [9, 8, 9, 7, 6, 8], color: '#166534' },
+                "Hostinger":     { data: [7, 6, 7, 9, 8, 9], color: '#15803d' },
+                "SiteGround":    { data: [6, 7, 5, 8, 5, 7], color: '#16a34a' },
+                "Wix":           { data: [3, 8, 9, 10, 9, 7], color: '#ca8a04' },
+                "Namecheap":     { data: [4, 3, 2, 6, 9, 8], color: '#f59e0b' },
+                "VentraIP":      { data: [4, 3, 2, 6, 7, 8], color: '#d97706' },
+                "Crazy Domains": { data: [1, 2, 2, 3, 2, 2], color: '#dc2626' },
             },
-            radarLabels: ['B2B Ecosystem', 'AaaS Sophistication', 'User Experience', 'Price Transparency', 'Brand Trust'],
+            radarLabels: ['B2B Ecosystem', 'AaaS Sophistication', 'AI Integration', 'User Experience', 'Price Transparency', 'Brand Trust'],
             priceCliff: {
                 labels: ['Year 1', 'Year 2 Renewal', 'Year 3', 'Year 4'],
                 datasets: [
@@ -309,6 +342,11 @@
                     { label: 'Revenue Potential', data: [8, 9, 7, 6], backgroundColor: '#16a34a99' },
                     { label: 'Strategic Value (Retention/Trust)', data: [9, 7, 8, 10], backgroundColor: '#15803d99' }
                 ]
+            },
+            performancePotential: {
+                proPlatform: { datasets: [{ label: 'Pro Platform', data: [{x: 6, y: 9, r: 25}], backgroundColor: '#16a34a' + 'bf' }] },
+                aiAaas: { datasets: [{ label: 'AI-Powered AaaS', data: [{x: 8, y: 7, r: 30}], backgroundColor: '#15803d' + 'bf' }] },
+                transparentPricing: { datasets: [{ label: 'Transparent Pricing', data: [{x: 10, y: 6, r: 20}], backgroundColor: '#22c55e' + 'bf' }] }
             },
             sources: [
                 { id: 1, title: "GoDaddy Agency Program", url: "https://www.godaddy.com/pro/agency" }, { id: 2, title: "GoDaddy Pro Overview", url: "https://www.godaddy.com/pro" },
@@ -412,10 +450,30 @@
             });
         }
 
+        function createPerformancePotentialCharts() {
+            const performanceChartOptions = {
+                ...chartDefaultOptions,
+                plugins: { ...chartDefaultOptions.plugins, legend: { display: false } },
+                scales: {
+                    x: { min: 0, max: 10, title: { display: true, text: 'Market Size' } },
+                    y: { min: 0, max: 10, title: { display: true, text: 'Strategic Value' } }
+                }
+            };
+            
+            const proPlatformCtx = document.getElementById('proPlatformPotentialChart')?.getContext('2d');
+            if(proPlatformCtx) new Chart(proPlatformCtx, { type: 'bubble', data: appData.performancePotential.proPlatform, options: performanceChartOptions });
+            
+            const aiAaasCtx = document.getElementById('aiAaasPotentialChart')?.getContext('2d');
+            if(aiAaasCtx) new Chart(aiAaasCtx, { type: 'bubble', data: appData.performancePotential.aiAaas, options: performanceChartOptions });
+            
+            const transparentPricingCtx = document.getElementById('transparentPricingPotentialChart')?.getContext('2d');
+            if(transparentPricingCtx) new Chart(transparentPricingCtx, { type: 'bubble', data: appData.performancePotential.transparentPricing, options: performanceChartOptions });
+        }
+
         function setupCompetitorSelector() {
             const container = document.getElementById('competitor-selector');
             if(!container) return;
-            const defaultSelection = ['GoDaddy', 'Hostinger', 'Crazy Domains'];
+            const defaultSelection = ['GoDaddy', 'Hostinger', 'Namecheap', 'Crazy Domains'];
             
             Object.keys(appData.competitors).forEach(name => {
                 const isChecked = defaultSelection.includes(name);
@@ -517,6 +575,7 @@
             createAgencyFeatureGapChart();
             createAccordion();
             createOpportunityImpactChart();
+            createPerformancePotentialCharts();
             populateSources();
         });
     </script>
