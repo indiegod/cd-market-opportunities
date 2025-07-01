@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Analysis: The Domain & Web Hosting Market</title>
     <!-- Chosen Palette: Natural & Verdant (Stone, Green, Muted Amber) -->
-    <!-- Application Structure Plan: The application is structured as a narrative journey to guide the user from a high-level market overview to specific strategic actions. The flow is: 1. **Market Overview:** Establishes the core industry challenges (price vs. value). 2. **Competitor Matrix:** An interactive tool for direct comparison. 3. **Strategy Deep Dive:** Contrasts a market leader (GoDaddy) with a laggard (Crazy Domains) to illustrate winning vs. failing strategies. 4. **Market Gaps:** Visualizes the three key opportunities identified in the report. 5. **Performance Potential:** Projects the market performance of these new opportunities. 6. **Actionable Blueprint:** Presents the final strategic recommendations. 7. **Sources:** Provides clickable citations for data validation. This narrative structure was chosen to make the complex information more engaging and memorable. -->
-    <!-- Visualization & Content Choices: The application uses a variety of interactive visualizations. **Market Overview:** Line chart. **Competitor Matrix:** Interactive radar chart. **Strategy Deep Dive:** HTML/CSS flow diagrams. **Market Gaps:** Bar charts and info cards. **Performance Potential:** Bubble charts to show ROI, market size, and strategic value. **Actionable Blueprint:** Interactive accordion and impact bar chart. All visualizations are rendered on Canvas using Chart.js, with diagrams built using styled HTML and Tailwind CSS, strictly avoiding SVG and Mermaid JS. -->
+    <!-- Application Structure Plan: The application is structured as a narrative journey. The flow is: 1. **Market Overview:** Establishes core industry challenges. 2. **B2B Maturity Ranking:** Adds a quantitative ranking chart for B2B capabilities. 3. **Competitor Matrix:** An interactive tool for direct comparison. 4. **Strategy Deep Dive:** Contrasts a leader vs. a laggard. 5. **Market Gaps:** Visualizes key opportunities. 6. **Performance Potential:** Projects market performance of new ventures. 7. **Actionable Blueprint:** Presents final strategic recommendations. 8. **Key Definitions:** A new section to explain critical terminology for a broader audience. 9. **Sources:** Provides clickable citations. This narrative structure makes the complex information more engaging and memorable. -->
+    <!-- Visualization & Content Choices: The application uses a variety of interactive visualizations. **B2B Maturity Ranking:** A new bar chart (Goal: Compare) to rank competitors' B2B programs. **Key Definitions:** A new section with styled cards (Goal: Inform) to explain terms like 'AI Integration' and 'AaaS'. All other visualizations remain, including the radar chart, line chart, bubble charts, and bar charts, all rendered on Canvas using Chart.js, with diagrams built using styled HTML and Tailwind CSS, strictly avoiding SVG and Mermaid JS. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -94,6 +94,7 @@
                 <li><a href="#gaps" class="nav-link">Market Gaps</a></li>
                 <li><a href="#performance" class="nav-link">Performance</a></li>
                 <li><a href="#blueprint" class="nav-link">Blueprint</a></li>
+                <li><a href="#definitions" class="nav-link">Definitions</a></li>
                 <li><a href="#sources" class="nav-link">Sources</a></li>
             </ul>
         </nav>
@@ -109,6 +110,18 @@
                 <p class="text-stone-600 max-w-2xl mx-auto mb-6">The dominant business model preys on customer inertia, offering tantalizingly low introductory prices that skyrocket upon renewal.<sup>[<a href="#source-4" class="citation-link">4</a>, <a href="#source-5" class="citation-link">5</a>, <a href="#source-6" class="citation-link">6</a>]</sup> This widespread practice creates a continuous cycle of customer frustration and churn, representing a critical vulnerability for incumbents.<sup>[<a href="#source-7" class="citation-link">7</a>, <a href="#source-8" class="citation-link">8</a>]</sup></p>
                 <div class="chart-container h-80">
                     <canvas id="priceCliffChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="b2b-ranking" class="py-16 mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Competitor B2B Maturity Ranking</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">A company's ability to serve high-value web professionals is a key indicator of strategic maturity. This ranking scores competitors based on the sophistication of their B2B programs, from simple affiliate links to comprehensive agency platforms.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="chart-container h-96">
+                    <canvas id="b2bMaturityChart"></canvas>
                 </div>
             </div>
         </section>
@@ -275,6 +288,31 @@
             </div>
         </section>
 
+        <section id="definitions" class="py-16 mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-extrabold section-title">Key Definitions</h2>
+                <p class="max-w-3xl mx-auto text-lg text-stone-600 mt-4">Understanding the core concepts used in this analysis is crucial for strategic planning. This section provides context-rich definitions for key business and technology terms.</p>
+            </div>
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="highlight-card">
+                    <h3 class="font-bold text-lg accent-text mb-2">AI Integration</h3>
+                    <p class="text-stone-600">In the context of this report, AI Integration refers to embedding artificial intelligence directly into the user's workflow to simplify complex tasks. This goes beyond a simple chatbot. It means providing tools like GoDaddy's Airo™, which can automatically generate a complete website, write marketing emails, and create social media posts based on a few user prompts. The goal is to act as an intelligent "co-pilot" for the user, delivering tangible results and saving significant time and effort.</p>
+                </div>
+                <div class="highlight-card">
+                    <h3 class="font-bold text-lg accent-text mb-2">B2B Ecosystem</h3>
+                    <p class="text-stone-600">A Business-to-Business (B2B) Ecosystem is a multi-layered strategy for serving professional clients like web designers, developers, and agencies. It moves beyond a simple affiliate link to include dedicated programs such as: <strong>Reseller Programs</strong> (allowing partners to sell services under their own brand) and <strong>Agency Platforms</strong> (providing specialized dashboards and tools to help professionals manage their own clients' websites efficiently).</p>
+                </div>
+                <div class="highlight-card">
+                    <h3 class="font-bold text-lg accent-text mb-2">AaaS (Advertising-as-a-Service)</h3>
+                    <p class="text-stone-600">AaaS involves selling marketing and advertising tools as a subscription service. A low-maturity AaaS portfolio consists of ineffective, automated tools like "Traffic Booster" that provide little value. A high-maturity portfolio, as recommended in this report, focuses on providing tools that deliver measurable Return on Investment (ROI), such as AI-powered content creators and transparent SEO analytics dashboards.</p>
+                </div>
+                <div class="highlight-card">
+                    <h3 class="font-bold text-lg accent-text mb-2">Revenue Streams</h3>
+                    <p class="text-stone-600"><strong>Vertical Revenue</strong> involves selling more products or higher-value services to your existing customer base (e.g., upselling a basic hosting customer to a premium "AI Marketing Suite"). <strong>Horizontal Revenue</strong> involves attracting entirely new types of customers by offering new product lines (e.g., building a "Pro Platform" to attract agency customers who would not have otherwise used your service).</p>
+                </div>
+            </div>
+        </section>
+
         <section id="sources" class="py-16">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-extrabold section-title">Sources & Citations</h2>
@@ -303,6 +341,14 @@
                 "Crazy Domains": { data: [1, 2, 2, 3, 2, 2], color: '#dc2626' },
             },
             radarLabels: ['B2B Ecosystem', 'AaaS Sophistication', 'AI Integration', 'User Experience', 'Price Transparency', 'Brand Trust'],
+            b2bMaturity: {
+                labels: ['GoDaddy', 'Hostinger', 'SiteGround', 'Namecheap', 'VentraIP', 'Crazy Domains'],
+                datasets: [{
+                    label: 'B2B Program Maturity Score',
+                    data: [95, 80, 75, 40, 35, 10],
+                    backgroundColor: ['#166534', '#15803d', '#16a34a', '#f59e0b', '#d97706', '#dc2626'],
+                }]
+            },
             priceCliff: {
                 labels: ['Year 1', 'Year 2 Renewal', 'Year 3', 'Year 4'],
                 datasets: [
@@ -419,6 +465,23 @@
             if(ctx) new Chart(ctx, { type: 'line', data: appData.priceCliff, options: { ...chartDefaultOptions, scales: { y: { beginAtZero: false, ticks: { color: '#57534e' }, grid: { color: '#e7e5e4' }, title: { display: true, text: 'Annual Hosting Cost ($)', color: '#44403c' } }, x: { ticks: { color: '#57534e' }, grid: { display: false } } } } });
         }
         
+        function createB2bMaturityChart() {
+            const ctx = document.getElementById('b2bMaturityChart')?.getContext('2d');
+            if(ctx) new Chart(ctx, {
+                type: 'bar',
+                data: appData.b2bMaturity,
+                options: {
+                    ...chartDefaultOptions,
+                    indexAxis: 'y',
+                    plugins: { ...chartDefaultOptions.plugins, legend: { display: false } },
+                    scales: {
+                        x: { beginAtZero: true, max: 100, title: { display: true, text: 'B2B Maturity Score (0-100)' }, grid: { display: false }, ticks: { color: '#57534e' } },
+                        y: { grid: { display: false }, ticks: { color: '#57534e' } }
+                    }
+                }
+            });
+        }
+
         function createCompetitorRadarChart() {
             const ctx = document.getElementById('competitorRadarChart')?.getContext('2d');
             if(!ctx) return;
@@ -570,6 +633,7 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             createPriceCliffChart();
+            createB2bMaturityChart();
             createCompetitorRadarChart();
             setupCompetitorSelector();
             createAgencyFeatureGapChart();
